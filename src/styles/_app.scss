@@ -8,3 +8,14 @@
 .page-container {
   width: 100%;
 }
+
+.error-msg {
+  width: 100%;
+  
+  p {
+    color: red;
+    text-align: center;
+    margin-top: 1em;
+  }
+
+}

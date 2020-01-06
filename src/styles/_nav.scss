@@ -18,17 +18,16 @@
       color: black;
       text-decoration: none;
 
-      &:hover {
+      &:hover, &:focus, &:active {
         color: #1890ff !important;
       }
 
-      &:focus {
-        color: #1890ff !important;
-      }
-
-      &:active {
-        color: #1890ff !important;
-      }
+    }
+    
+    .nav-item.primary{
+      font-size: 1.3em;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.65);
     }
   }
 }

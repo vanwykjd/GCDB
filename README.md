@@ -9,7 +9,7 @@ A platform that enables users and developers to easily add and edit golf course 
 
 ## To-Do:
 - [x] Enable user REGISTRATION
-- [ ] Enable user SIGN-IN/SIGN-OUT
+- [x] Enable user SIGN-IN/SIGN-OUT
 - [ ] Enable user to CREATE a Golf/Country Club
 - [ ] Enable user to CREATE a Golf Course
   - [ ] CREATE Tees

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
+import { AuthUserContext, withAuthorization } from '../Session';
 
 // --- Components --- //
 import { Row, Form, Icon, Input, Button } from 'antd';
@@ -10,41 +11,38 @@ import { Row, Form, Icon, Input, Button } from 'antd';
 // --- Styles --- //
 import '../../styles/_session_forms.scss';
 
-const RegisterPage = () => (
-  <Row type="flex" justify="center" align="middle" className='form-page'>
-    <Row type="flex" justify="center" align="middle" className='form-header'>
-      <h1>Create Account</h1>
-    </Row>
-    <RegisterForm />
-  </Row>
+
+const PasswordResetPage = () => (
+  <AuthUserContext.Consumer>
+    {authUser => (
+     <Row type="flex" justify="center" align="middle" className='form-page'>
+        <Row type="flex" justify="center" align="middle" className='form-header'>
+          <h1>Change Your Password</h1>
+        </Row>
+        <PasswordResetForm />
+      </Row>
+    )}
+  </AuthUserContext.Consumer>
 );
 
 const INITIAL_STATE = {
-  email: '',
   password: '',
-  password_confirm: '',
+  pwConfirm: '',
   error: null,
 };
 
-class RegisterFormBase extends Component {
+class PasswordResetFormBase extends Component {
   constructor(props) {
     super(props);
-    
-    this.state = {...INITIAL_STATE };
+
+    this.state = { ...INITIAL_STATE };
   }
-  
+
   onSubmit = event => {
-    const {email, password} = this.state;
+    const { password } = this.state;
 
     this.props.firebase
-      .doCreateUserWithEmailAndPassword(email, password)
-      .then(authUser => {
-          return this.props.firebase
-            .user(authUser.user.uid)
-            .set({
-              email,
-          });
-      })
+      .doPasswordUpdate(password)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.LANDING);
@@ -55,35 +53,21 @@ class RegisterFormBase extends Component {
 
     event.preventDefault();
   };
-  
+
   onChange = event => {
-    console.log(event.target.name, event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
+
   render() {
-    const { email, password, password_confirm, error } = this.state;
+    const { password, pwConfirm, error } = this.state;
+
     const isInvalid =
-          email === '' || 
-          password === '' ||
-          password_confirm === '' ||
-          password !== password_confirm;
-    
+      password !== pwConfirm || pwConfirm === '';
+
     return (
       <Form onSubmit={this.onSubmit} className="account-form">
-      
-        <Form.Item>
-          <Input
-            name="email"
-            value={email}
-            prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.onChange}
-            type="text"
-            autoComplete="new-email"
-            placeholder="Email"
-          />
-        </Form.Item>
-      
+    
         <Form.Item>
           <Input 
             name="password"
@@ -91,29 +75,27 @@ class RegisterFormBase extends Component {
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             onChange={this.onChange}
             type="password"
-            autoComplete="new-password"
-            placeholder="Password"
+            placeholder="New Password"
           />
         </Form.Item>
       
         <Form.Item>
           <Input 
-            name="password_confirm"
-            value={password_confirm}
+            name="pwConfirm"
+            value={pwConfirm}
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             onChange={this.onChange}
             type="password"
-            autoComplete="new-password"
             placeholder="Confirm Password"
           />
         </Form.Item>
       
         <Row type="flex" justify="center" align="middle" className='session-btn-container'>
           <Button type="primary" htmlType="submit" className="login-form-button" disabled={isInvalid}>
-            Create Account
+            Reset My Password
           </Button>
         </Row>
-      
+        
         <Row type="flex" justify="center" align="middle" className='error-msg'>
           { error && 
             <p>{error.message}</p>
@@ -124,11 +106,18 @@ class RegisterFormBase extends Component {
   }
 }
 
-const RegisterForm = compose(
+const PasswordResetLink = () => (
+  <Row type="flex" justify="center" align="middle" className='form_link'>
+    <Link to={ROUTES.PW_RESET}>Change My Password</Link>
+  </Row>
+);
+
+const PasswordResetForm = compose(
   withRouter,
   withFirebase,
-)(RegisterFormBase);
+)(PasswordResetFormBase);
 
-export default RegisterPage;
+const condition = authUser => !!authUser;
 
-export { RegisterForm };
+export default withAuthorization(condition)(PasswordResetPage);
+export { PasswordResetForm, PasswordResetLink};

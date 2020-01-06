@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Row } from 'antd';
+import { Row, Col } from 'antd';
 import { AuthUserContext } from '../Session';
 
 // --- Components --- //
 import RegisterForm from '../Register';
+import LoginForm from '../Login';
 
 // --- Styles --- //
 import '../../styles/_landing.scss';
@@ -24,7 +25,17 @@ const LandingNonAuth = () => (
       </p>
     </Row>
     <Row type="flex" justify="center" align="middle" className="page-content">
-      <RegisterForm />
+      <Col xs={24} md={10}>
+        <LoginForm />
+      </Col>
+      
+      <Col xs={24} md={2} className="divider">
+        <h2>Or</h2>
+      </Col>
+      
+      <Col xs={24} md={10}>
+        <RegisterForm />
+      </Col>
     </Row>
   </Row>
 );

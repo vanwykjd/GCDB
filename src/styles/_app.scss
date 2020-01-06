@@ -9,13 +9,16 @@
   width: 100%;
 }
 
+.divider {
+  text-align: center;
+}
+
 .error-msg {
   width: 100%;
   
   p {
     color: red;
     text-align: center;
-    margin-top: 1em;
   }
 
 }

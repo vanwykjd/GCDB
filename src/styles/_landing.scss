@@ -1,0 +1,24 @@
+.greeting, .intro {
+  text-align: center;
+  width: 100%;
+}
+
+.greeting {
+  margin-bottom: 16px;
+
+  h1, h3 {
+    width: 100%;
+  }
+
+  h1 {
+    font-weight: 800;
+    letter-spacing: .1em;
+    margin-bottom: 4px;
+  }
+}
+
+.intro {
+  p {
+    text-align: justify;
+  }
+}

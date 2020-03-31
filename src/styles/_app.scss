@@ -2,23 +2,53 @@
 
 .App {
   width: 100vw;
-  min-height: 100vh;
 }
+
+
+.nav-wrapper {
+  width: 100%;
+  padding: 16px 0px;
+  border-bottom: 2px solid #dadce0;
+}
+
+
+.page-wrapper {
+  width: 100%;
+  height: calc(100vh - 74px);
+  overflow-x: hidden;
+}
+
 
 .page-container {
   width: 100%;
+  height: auto;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0px 32px;
 }
 
-.divider {
-  text-align: center;
-}
 
-.error-msg {
-  width: 100%;
+.loading-page {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: #FFF;
+  top: 0;
+  left: 0;
+  z-index: 999;
   
-  p {
-    color: red;
-    text-align: center;
+  .loading-container {
+    width: 100%;
+    
+    .anticon {
+      color: #000;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      font-size: 80px;
+      text-align: center;
+    }
   }
-
 }

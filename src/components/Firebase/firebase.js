@@ -18,6 +18,8 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
     
+
+    this.serverValue = app.database.ServerValue;
     this.auth = app.auth();
     this.db = app.database();
   }
@@ -45,6 +47,10 @@ class Firebase {
           .once('value')
           .then(snapshot => {
             const dbUser = snapshot.val();
+          
+            if (!dbUser.clubs) {
+              dbUser.clubs = {};
+            }
    
             // *** merge auth and db user ***
             authUser = {
@@ -61,9 +67,26 @@ class Firebase {
       }
     });
 
-  user = uid => this.db.ref(`users/${uid}`);
-
+  /** User Refs **/
   users = () => this.db.ref('users');
+  user = uid => this.db.ref(`users/${uid}`);
+  userClubs = uid => this.db.ref(`users/${uid}/clubs`);
+  userClub = (uid, club_id) => this.db.ref(`users/${uid}/clubs/${club_id}`);
+  
+
+  /** Club Refs **/
+  clubs = () => this.db.ref('clubs');
+  club = uid => this.db.ref(`clubs/${uid}`);
+
+
+  /** Locstions Refs **/
+  locationToRemove = (country, state, zip) => this.db.ref(`locations/${country}/${state}/${zip}`);
+  locations = () => this.db.ref('locations');
+  location  = (country, state, zip, add) => this.db.ref(`locations/${country}/${state}/${zip}/${add}`);
+  
+  /** Deleted Refs **/
+  
+  deletedClubs = uid => this.db.ref(`deleted/clubs/${uid}`);
 }
 
 export default Firebase;

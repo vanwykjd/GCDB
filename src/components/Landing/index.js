@@ -4,55 +4,39 @@ import { Row, Col } from 'antd';
 import { AuthUserContext } from '../Session';
 
 // --- Components --- //
-import RegisterForm from '../Register';
 import LoginForm from '../Login';
 
 // --- Styles --- //
 import '../../styles/_landing.scss';
 
-const LandingAuth = ({ authUser }) => (
-  <Row type="flex" justify="center" align="middle" className="page-content">
-    <h2>Hello, {authUser.email}</h2>
-  </Row>
-);
-
-const LandingNonAuth = () => (
-  <Row type="flex" justify="center" align="middle" className="page-content">
-    <Row type="flex" justify="center" align="middle" className="intro">
-      <p>
-        A platform specifically designed to simplify the process
-        of creating and editing golf course data that is accessible to all.
-      </p>
-    </Row>
-    <Row type="flex" justify="center" align="middle" className="page-content">
-      <Col xs={24} md={10}>
-        <LoginForm />
-      </Col>
-      
-      <Col xs={24} md={2} className="divider">
-        <h2>Or</h2>
-      </Col>
-      
-      <Col xs={24} md={10}>
-        <RegisterForm />
-      </Col>
-    </Row>
-  </Row>
-);
-
-const Landing = () => (
-  <Row type="flex" justify="center" align="middle" className='page-container'>
-    <Row type="flex" justify="center" align="middle" className="greeting">
-      <h1>Welcome to GCDB-API</h1>
-      <h3>A Golf Course DB created for the people, by the people.</h3>
-    </Row>
-    
+const Landing = ({ authUser }) => (
     <AuthUserContext.Consumer>
       {authUser =>
-        authUser ? <LandingAuth authUser={authUser} /> : <LandingNonAuth />
+        authUser ? null : <LandingPage />
       }
     </AuthUserContext.Consumer>
+);
+
+const LandingPage = () => (
+  <Row type="flex" justify="center" align="middle" className="page-container">
+    <Row type="flex" justify="space-between" align="middle" className="banner">
+      <Col xs={24} md={12} className='greeting'>
+        <Row type="flex" justify="start" align="middle" className='greeting-wrapper'>
+          <h1>GCDB-API</h1>
+
+          <h2>Golf course data for the people, by the people</h2>
+          <p>A platform enabling users to create, edit and access golf courses within the GCDB</p>
+        </Row>
+      </Col>
+
+      <Col xs={24} md={12} className='banner-login'>
+        <Row type="flex" justify="end" align="middle" className='form-wrapper'>
+          <LoginForm />
+        </Row>
+      </Col>
+    </Row>
   </Row>
 );
+
 
 export default Landing;

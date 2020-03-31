@@ -10,14 +10,14 @@ A platform that enables users and developers to easily add and edit golf course 
 ## To-Do:
 - [x] Enable user REGISTRATION
 - [x] Enable user SIGN-IN/SIGN-OUT
-- [ ] Enable user to CREATE a Golf/Country Club
+- [X] Enable user to CREATE a Golf/Country Club
 - [ ] Enable user to CREATE a Golf Course
   - [ ] CREATE Tees
   - [ ] CREATE Teeboxes
   - [ ] CREATE Hole Data
   - [ ] CREATE User Validations for Course Data
   - [ ] Tests
-- [ ] Enable user to EDIT/UPDATE a Golf/Country Club
+- [X] Enable user to EDIT/UPDATE a Golf/Country Club
 - [ ] Enable user to EDIT/UPDATE a Golf Course
   - [ ] EDIT/UPDATE Tees
   - [ ] EDIT/UPDATE Teeboxes

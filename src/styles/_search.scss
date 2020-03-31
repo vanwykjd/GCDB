@@ -1,0 +1,69 @@
+.course-search {
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 40px;
+
+  .search-results {
+    position: relative;
+    width: calc(100% - 32px);
+
+    .search-results-conatiner {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      background: #fff;
+      top: 4px;
+      border-radius: 8px;
+      border: 1px solid #dadce0;
+      z-index: 999;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 220px;
+      
+      .search-result-wrapper {
+        width: 100%;
+        border-bottom: 1px solid #dadce0; 
+        height: 40px;
+        
+        &:last-child {
+          border-bottom: none; 
+        }
+        
+        .search-result {
+          width: 100%;
+          height: 40px;
+          color: rgba(0, 0, 0, 0.65);
+          -webkit-transition: all 0.3s;
+          transition: all 0.3s;
+          
+          button {
+            width: 100%;
+            line-height: 40px;
+            padding-left: 16px;
+            padding-right: 16px;
+            
+            .club-name {
+              color: rgba(0, 0, 0, 0.65);
+              float: left;
+            }
+            
+            .club-desc {
+              float: right;
+              color: rgba(0, 0, 0, 0.45);
+            }
+          }
+         
+          &:hover {
+            background-color: #e6f7ff;
+            
+            button {
+              .club-name, .club-desc {
+                color: #40a9ff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

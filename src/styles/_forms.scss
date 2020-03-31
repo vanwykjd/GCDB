@@ -1,0 +1,187 @@
+.session-form {
+  width: 100%;
+  max-width: 450px;
+  
+  @media screen and (max-width: 767px) {
+    padding: 0px 32px;
+  }
+  
+  .form-header {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    width: 100%;
+    
+    h1, h2 {
+      text-align: center;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 32px;
+      font-weight: 600;
+    }
+
+    h2 {
+      color: rgba(0, 0, 0, 0.65);
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 24px;
+      margin-bottom: 0px;
+      
+    }
+  }
+  
+  .form-container {
+    height: auto;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #dadce0;
+    padding: 32px;
+    
+    .form-input {
+      width: 100%;
+      margin-bottom: 24px;
+      
+      .input-lable {
+        color: rgba(0, 0, 0, 0.85);
+        width: 100%;
+        font-size: 14px;
+        line-height: 1em;
+        margin-bottom: 8px;
+        text-align: left;
+        
+        .sub-lable {
+          font-size: 12px;
+        }
+      }
+    }
+    
+    .form-actions-container {
+      margin-top: 32px;
+    }
+    
+    .form-actions-container, .form-btn-container {
+      width: 100%;
+    }
+
+    .login-btn, .create-account-btn {
+      width: 100%;
+    }  
+  }
+  
+  input[type="text"].ant-input::-webkit-input-placeholder {
+    color: red;
+  }
+}
+
+
+.data-form {
+  width: 100%;
+  max-width: 450px;
+  
+  @media screen and (max-width: 767px) {
+    padding: 0px 32px;
+  }
+  
+  .data-container {
+    height: auto;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #dadce0;
+    
+    .data-header {
+      width: 100%;
+      padding: 16px;
+      margin-top: 0px;
+      border-bottom: 1px solid #dadce0;
+      
+      h1 {
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 24px;
+        margin-bottom: 0px;
+      }
+    }
+    
+    .data-item {
+      width: 100%;
+      border-bottom: 1px solid #dadce0;
+      
+      .data-lable {
+        width: 100px;
+        height: 64px;
+        padding: 0px 16px; 
+        color: rgba(0, 0, 0, 0.85);
+        font-size: 16px;
+        text-align: left;
+        line-height: 64px;
+        border-right: 1px solid #dadce0;
+        
+        .data-sub-lable {
+          font-size: 14px;
+        }
+      }
+      
+      .data-value {
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 16px;
+        text-align: left;
+        padding: 0px 16px;
+      }
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    
+    .data-actions-container {
+      margin-top: 32px;
+    }
+    
+    .data-actions-container, .form-btn-container {
+      width: 100%;
+    }
+
+    .edit-btn-container {
+      width: 100%;
+
+      .edit-btn {
+        font-size: 14px;
+        line-height: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+
+.full-page-form {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 998;
+  top: -68px;
+}
+
+
+::-webkit-input-placeholder {
+  color: #bfbfbf !important;
+} 
+
+
+::-moz-placeholder {
+  color: #bfbfbf !important;
+}
+
+
+::-ms-placeholder {
+  color: #bfbfbf !important;
+}
+
+
+::placeholder {
+  color: #bfbfbf !important;
+}

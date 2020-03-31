@@ -6,28 +6,20 @@ import * as ROUTES from '../../constants/routes';
 import { AuthUserContext, withAuthorization } from '../Session';
 
 // --- Components --- //
-import { Row, Form, Icon, Input, Button } from 'antd';
-
-// --- Styles --- //
-import '../../styles/_session_forms.scss';
+import { Row, Form, Icon, Input, Button, Alert } from 'antd';
 
 
 const PasswordResetPage = () => (
   <AuthUserContext.Consumer>
     {authUser => (
-     <Row type="flex" justify="center" align="middle" className='form-page'>
-        <Row type="flex" justify="center" align="middle" className='form-header'>
-          <h1>Change Your Password</h1>
-        </Row>
-        <PasswordResetForm />
-      </Row>
+      <PasswordResetForm />
     )}
   </AuthUserContext.Consumer>
 );
 
 const INITIAL_STATE = {
   password: '',
-  pwConfirm: '',
+  password_confirm: '',
   error: null,
 };
 
@@ -60,48 +52,76 @@ class PasswordResetFormBase extends Component {
 
 
   render() {
-    const { password, pwConfirm, error } = this.state;
+    const { password, password_confirm, error, loading } = this.state;
 
     const isInvalid =
-      password !== pwConfirm || pwConfirm === '';
+      password !== password_confirm || password_confirm === '';
 
     return (
-      <Form onSubmit={this.onSubmit} className="account-form">
-    
-        <Form.Item>
-          <Input 
-            name="password"
-            value={password}
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.onChange}
-            type="password"
-            placeholder="New Password"
-          />
-        </Form.Item>
-      
-        <Form.Item>
-          <Input 
-            name="pwConfirm"
-            value={pwConfirm}
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.onChange}
-            type="password"
-            placeholder="Confirm Password"
-          />
-        </Form.Item>
-      
-        <Row type="flex" justify="center" align="middle" className='session-btn-container'>
-          <Button type="primary" htmlType="submit" className="login-form-button" disabled={isInvalid}>
-            Reset My Password
-          </Button>
+      <Row type="flex" justify="center" align="middle" className='session-form'>
+        <Row type="flex" justify="center" align="middle" className='form-header'>
+          <h1>GCDB-API</h1>
+          <h2>Change Your Password</h2>
         </Row>
+
+        { loading && 
+          <div className='loading-page'>
+            <Row type="flex" justify="center" align="center" className='loading-container'>
+              <Icon type="loading" />
+            </Row>
+          </div> 
+        }
         
-        <Row type="flex" justify="center" align="middle" className='error-msg'>
-          { error && 
-            <p>{error.message}</p>
-          }
-        </Row>
-      </Form>
+        { error && 
+          <Row type="flex" justify="center" align="middle" className='error-modal'>
+            <Alert
+              message={error.message}
+              type="error"
+            />
+          </Row>
+        }
+      
+        <Form onSubmit={this.onSubmit} className='form-container'>        
+          <Row type="flex" justify="center" align="middle" className='form-input'>
+            <div className='input-lable'>
+              New Password:
+            </div>
+  
+            <Input 
+              name="password"
+              value={password}
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Enter new password"
+            />
+          </Row>
+      
+          <Row type="flex" justify="center" align="middle" className='form-input'>
+            <div className='input-lable'>
+              Confirm New Password:
+            </div>
+  
+            <Input 
+              name="password_confirm"
+              value={password_confirm}
+              onChange={this.onChange}
+              type="password"
+              autoComplete="new-password"
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Enter new password confirmation"
+            />
+          </Row>
+          
+          <Row type="flex" justify="center" align="middle" className='form-actions-container'>
+            <Row type="flex" justify="center" align="middle" className='form-btn-container'>
+              <Button type="primary" htmlType="submit" className="create-account-btn" disabled={isInvalid}>
+                Reset My Password
+              </Button>
+            </Row>
+          </Row>
+        </Form>
+      </Row>
     );
   }
 }

@@ -1,31 +1,24 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
 
 // --- Components --- //
-import { Row, Form, Icon, Input, Button } from 'antd';
+import { Row, Form, Icon, Input, Button, Alert } from 'antd';
 
-// --- Styles --- //
-import '../../styles/_session_forms.scss';
-
-const RegisterPage = () => (
-  <Row type="flex" justify="center" align="middle" className='form-page'>
-    <Row type="flex" justify="center" align="middle" className='form-header'>
-      <h1>Create Account</h1>
-    </Row>
-    <RegisterForm />
-  </Row>
-);
+const RegisterPage = () => ( <RegisterForm /> );
 
 const INITIAL_STATE = {
+  username: '',                 
   email: '',
   password: '',
   password_confirm: '',
   error: null,
+  loading: false,
 };
 
+                            
 class RegisterFormBase extends Component {
   constructor(props) {
     super(props);
@@ -33,93 +26,143 @@ class RegisterFormBase extends Component {
     this.state = {...INITIAL_STATE };
   }
   
-  onSubmit = event => {
-    const {email, password} = this.state;
 
-    this.props.firebase
-      .doCreateUserWithEmailAndPassword(email, password)
-      .then(authUser => {
+  onSubmit = event => {
+    event.preventDefault();
+    
+    this.setState({ loading: true });
+    const {email, password, password_confirm} = this.state;
+    let error = this.state.error;
+
+    const invalidEmail = (email) ? email.includes(" ") : true;
+    const invalidPassword = (password) ? password.includes(" ") : true;
+    const invalidPasswordConf = (password_confirm) ? password_confirm.includes(" ") : true;
+    
+    if (invalidEmail || invalidPassword || invalidPasswordConf) {
+      error = { message: 'Invalid email, password or password confirmation.' };
+      this.setState({ loading: false, error });
+    } else if (password !== password_confirm) {
+      error = { message: 'Password and password confirmation do not match.' };
+      this.setState({ loading: false, error });
+    } else {
+
+      this.props.firebase
+        .doCreateUserWithEmailAndPassword(email, password)
+        .then(authUser => {
           return this.props.firebase
             .user(authUser.user.uid)
             .set({
-              email,
-          });
+              email: email.toLowerCase(),
+              username: email.split('@')[0].toString().replace('.', '-').toLowerCase()
+            });
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.LANDING);
       })
       .catch(error => {
-        this.setState({ error });
+        this.setState({ error, loading: false });
       });
-
-    event.preventDefault();
+    }
   };
   
+
   onChange = event => {
-    console.log(event.target.name, event.target.value);
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value, error: false  });
   };
 
+
   render() {
-    const { email, password, password_confirm, error } = this.state;
-    const isInvalid =
-          email === '' || 
-          password === '' ||
-          password_confirm === '' ||
-          password !== password_confirm;
+    const { email, password, password_confirm, error, loading } = this.state;
+
     
     return (
-      <Form onSubmit={this.onSubmit} className="account-form">
-      
-        <Form.Item>
-          <Input
-            name="email"
-            value={email}
-            prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.onChange}
-            type="text"
-            autoComplete="new-email"
-            placeholder="Email"
-          />
-        </Form.Item>
-      
-        <Form.Item>
-          <Input 
-            name="password"
-            value={password}
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.onChange}
-            type="password"
-            autoComplete="new-password"
-            placeholder="Password"
-          />
-        </Form.Item>
-      
-        <Form.Item>
-          <Input 
-            name="password_confirm"
-            value={password_confirm}
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.onChange}
-            type="password"
-            autoComplete="new-password"
-            placeholder="Confirm Password"
-          />
-        </Form.Item>
-      
-        <Row type="flex" justify="center" align="middle" className='session-btn-container'>
-          <Button type="primary" htmlType="submit" className="login-form-button" disabled={isInvalid}>
-            Create Account
-          </Button>
+      <Row type="flex" justify="center" align="middle" className='session-form'>
+        <Row type="flex" justify="center" align="middle" className='form-header'>
+          <h1>GCDB-API</h1>
+          <h2>Create your account</h2>
         </Row>
       
-        <Row type="flex" justify="center" align="middle" className='error-msg'>
-          { error && 
-            <p>{error.message}</p>
-          }
-        </Row>
-      </Form>
+        { loading && 
+          <div className='loading-page'>
+            <Row type="flex" justify="center" align="center" className='loading-container'>
+              <Icon type="loading" />
+            </Row>
+          </div> 
+        }
+        
+        { error && 
+          <Row type="flex" justify="center" align="middle" className='error-modal'>
+            <Alert
+              message={error.message}
+              type="error"
+            />
+          </Row>
+        }
+      
+        <Form onSubmit={this.onSubmit} className='form-container'>
+          <Row type="flex" justify="center" align="middle" className='form-input'>
+            <div className='input-lable'>
+              Email:
+            </div>
+
+            <Input 
+              name="email"
+              value={email}
+              onChange={this.onChange}
+              type="text"
+              autoComplete="new-email"
+              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Enter email"
+            />
+          </Row>
+
+          <Row type="flex" justify="center" align="middle" className='form-input'>
+            <div className='input-lable'>
+              Password:
+            </div>
+
+            <Input 
+              name="password"
+              value={password}
+              onChange={this.onChange}
+              type="password"
+              autoComplete="new-password"
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Enter password"
+            />
+          </Row>
+      
+          <Row type="flex" justify="center" align="middle" className='form-input'>
+            <div className='input-lable'>
+              Confirm Password:
+            </div>
+
+            <Input 
+              name="password_confirm"
+              value={password_confirm}
+              onChange={this.onChange}
+              type="password"
+              autoComplete="new-password"
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Enter password confirmation"
+            />
+          </Row>
+
+          <Row type="flex" justify="center" align="middle" className='form-actions-container'>
+            <Row type="flex" justify="center" align="middle" className='form-btn-container'>
+              <Button type="primary" htmlType="submit" className="create-account-btn">
+                Create Account
+              </Button>
+            </Row>
+            <Row type="flex" justify="center" align="middle" className='form-btn-container'>
+              <Link to={ROUTES.LOGIN} style={{ marginTop: '8px'}}>
+                <Button className="create-account-btn" type='link'>Already have an account?</Button>
+              </Link>
+            </Row>
+          </Row>
+        </Form>
+      </Row>
     );
   }
 }

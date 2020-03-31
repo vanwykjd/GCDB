@@ -1,0 +1,82 @@
+.dashboard {
+  width: 100%;
+
+  .search-page {
+    width: 100%;
+    padding: 40px 0px;
+    
+    .search-page-header {
+      width: 100%;
+      height: calc(35vh - 66px);
+
+      h1 {
+        text-align: center;
+        width: 100%;
+        font-weight: 600;
+        font-size: 80px;
+        line-height: .75em;
+        margin-top: 40px;
+        margin-bottom: 80px;
+        cursor: default;
+      }
+    }
+  }
+
+  .actions-container {
+    width: 100%;
+    
+    .course-search {
+      width: 100%;
+      max-width: 450px;
+      margin-bottom: 40px;
+    }
+    
+    .action-btns-container {
+      width: 100%;
+      
+      .btn-container {
+        width: 112px;
+        height: auto;
+          
+        .action-btn {
+          text-align: center;
+          width: auto;
+          
+          button {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 8px;
+            border-color: rgba( 0, 0, 0, .65);
+          }
+          
+          button, span {
+            -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            color: rgba( 0, 0, 0, .65);
+          }
+          
+          &:hover {
+            button, span {
+              -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+              transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+              color: #1890ff;
+            }
+            
+            button {
+              border-color: #1890ff;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    h1 {
+      font-size: 56px;
+      line-height: .75em;
+      margin-top: .5em;
+      margin-bottom: 1em;
+    }
+  }
+}

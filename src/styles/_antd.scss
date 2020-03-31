@@ -1,0 +1,44 @@
+.ant-divider-vertical {
+  top: 0;
+  height: 32px;
+}
+
+
+.ant-divider-horizontal.ant-divider-with-text-center {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  line-height: 32px;
+  
+  span {
+    color: rgb(120, 120, 120);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
+
+
+.course-search {
+  .ant-input-affix-wrapper .ant-input:not(:last-child) {
+    padding-right: 11px;
+    padding-left: 32px;
+    border-radius: 22px;
+  }
+  
+  .ant-input-affix-wrapper .ant-input-suffix {
+    width: 14px; 
+    right: 32px;
+  }
+}
+
+
+.error-modal {
+  position: relative;
+  width: 100%;
+
+  .ant-alert {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+}
